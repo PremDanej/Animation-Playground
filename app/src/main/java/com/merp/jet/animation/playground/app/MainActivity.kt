@@ -4,15 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.merp.jet.animation.playground.app.playground.navigation.NavigationGraph
-import com.merp.jet.animation.playground.app.ui.screen.home.AnimationPlaygroundApp
-import com.merp.jet.animation.playground.app.ui.screen.main.MainScreen
+import androidx.navigation.compose.rememberNavController
+import com.merp.jet.animation.playground.app.components.TopActionBar
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundNavigation
 import com.merp.jet.animation.playground.app.ui.theme.AnimationPlaygroundAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,23 +20,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            /*AnimationPlaygroundAppTheme {
-                AnimationPlaygroundApp()
-            }*/
-
-            /*Scaffold { paddingValues ->
-                Surface(
-                    color = MaterialTheme.colorScheme.background,
-                    modifier = Modifier.padding(paddingValues)
-                ) {
-                    NavigationGraph()
-                }
-            }*/
-
+            val navController = rememberNavController()
+            val isFirstScreen = remember { mutableStateOf(false) }
+            val screenName = remember { mutableStateOf("Animation Playground") }
             AnimationPlaygroundAppTheme {
-                Scaffold { paddingValues ->
+                Scaffold(
+                    topBar = {
+                        TopActionBar(
+                            title = screenName.value,
+                            isFirstScreen = isFirstScreen.value,
+                            navigateBack = { navController.popBackStack() }
+                        )
+                    }
+                ) { paddingValues ->
                     Surface(modifier = Modifier.padding(paddingValues)) {
-                        MainScreen()
+                        AnimationPlaygroundNavigation(
+                            navController = navController,
+                            isFirstScreen = isFirstScreen,
+                            name = screenName
+                        )
                     }
                 }
             }
