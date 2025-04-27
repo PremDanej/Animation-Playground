@@ -8,9 +8,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.MainScreen
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.*
+import com.merp.jet.animation.playground.app.ui.screen.twin.usingDpStateEasing.TweenAnimationDpStateScreen
 import com.merp.jet.animation.playground.app.ui.screen.main.MainScreen
+import com.merp.jet.animation.playground.app.ui.screen.spring.usingFloatStateStiff.SpringAnimationFloatStateStiffScreen
 import com.merp.jet.animation.playground.app.ui.screen.twin.TweenSharedViewModel
+import com.merp.jet.animation.playground.app.ui.screen.twin.codeGenerator.TweenCodePreviewAndGeneratorScreen
+import com.merp.jet.animation.playground.app.ui.screen.twin.usingColorStateEasing.TweenAnimationColorStateScreen
+import com.merp.jet.animation.playground.app.ui.screen.twin.usingFloatStateEasing.TweenAnimationFloatStateScreen
+import com.merp.jet.animation.playground.app.ui.screen.twin.usingFloatStateInfinite.TweenAnimationFloatStateInfiniteScreen
 
 @Composable
 fun AnimationPlaygroundNavigation(
@@ -36,6 +42,10 @@ fun AnimationPlaygroundNavigation(
         composable(route = MainScreen.name) {
             defaultScreenConfig(isMain = true, title = "Animation Playground")
             MainScreen(navController = navController)
+        }
+        composable(route = TweenUsingDpStateEasingScreen.name) {
+            defaultScreenConfig(title = "Tween - animateAsDpState()")
+            TweenAnimationDpStateScreen(navController = navController, viewModel = viewModel)
         }
     }
 }
