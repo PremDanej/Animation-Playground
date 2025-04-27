@@ -47,5 +47,9 @@ fun AnimationPlaygroundNavigation(
             defaultScreenConfig(title = "Tween - animateAsDpState()")
             TweenAnimationDpStateScreen(navController = navController, viewModel = viewModel)
         }
+        composable(route = TweenUsingFloatStateEasingScreen.name) {
+            defaultScreenConfig(title = "Tween - animateAsFloatState()")
+            TweenAnimationFloatStateScreen(navController = navController)
+        }
     }
 }
