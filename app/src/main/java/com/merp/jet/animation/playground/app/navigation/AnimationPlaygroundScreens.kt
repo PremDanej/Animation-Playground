@@ -4,4 +4,5 @@ enum class AnimationPlaygroundScreens {
     MainScreen,
     TweenUsingDpStateEasingScreen,
     TweenUsingFloatStateEasingScreen,
+    TweenCodePreviewAndGeneratorScreen,
 }
