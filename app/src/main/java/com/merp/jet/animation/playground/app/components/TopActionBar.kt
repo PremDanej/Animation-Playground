@@ -27,8 +27,9 @@ fun TopActionBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         titleContentColor = MaterialTheme.colorScheme.primary,
     )
+
     CenterAlignedTopAppBar(
-        colors = centralColor,
+        //colors = centralColor,
         title = {
             Text(
                 text = title,
