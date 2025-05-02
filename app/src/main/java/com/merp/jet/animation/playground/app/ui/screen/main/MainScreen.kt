@@ -67,21 +67,23 @@ fun MainScreen(navController: NavController) {
             .verticalScroll(rememberScrollState())
             .padding(COMMON_PADDING)
     ) {
-        AnimationDpStateEasing(easingName = "DpState", easing = FastOutSlowInEasing, onClick = {
+
+        AnimationDpStateEasing(easingName = "DpState", easing = FastOutSlowInEasing) {
             navController.navigate(TweenUsingDpStateEasingScreen.name)
-        })
-        AnimationFloatStateEasing(
-            easingName = "FloatState",
-            easing = FastOutSlowInEasing,
-            onClick = {
-                navController.navigate(TweenUsingFloatStateEasingScreen.name)
-            })
+        }
+
+        AnimationFloatStateEasing(easingName = "FloatState", easing = FastOutSlowInEasing) {
+            navController.navigate(TweenUsingFloatStateEasingScreen.name)
+        }
+
+        AnimationFloatStateInfinite(easingName = "Infinite FloatState") {
+            navController.navigate(TweenUsingFloatStateInfiniteScreen.name)
+        }
+
         AnimationFloatStateSpring(easingName = "FloatState", onClick = {
             navController.navigate(SpringUsingFloatStateStiffScreen.name)
         })
-        AnimationFloatStateInfinite(easingName = "Infinite FloatState", onClick = {
-            navController.navigate(TweenUsingFloatStateInfiniteScreen.name)
-        })
+
         AnimationColorStateEasing(
             easingName = "Infinite FloatState",
             onClick = {
