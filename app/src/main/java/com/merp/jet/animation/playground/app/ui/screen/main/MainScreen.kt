@@ -84,11 +84,9 @@ fun MainScreen(navController: NavController) {
             navController.navigate(SpringUsingFloatStateStiffScreen.name)
         })
 
-        AnimationColorStateEasing(
-            easingName = "Infinite FloatState",
-            onClick = {
-                navController.navigate(TweenUsingColorStateEasingScreen.name)
-            })
+        AnimationColorStateEasing(easingName = "Infinite FloatState") {
+            navController.navigate(TweenUsingColorStateEasingScreen.name)
+        }
     }
 }
 
@@ -138,12 +136,12 @@ fun AnimationDpStateEasing(easingName: String, easing: Easing, onClick: () -> Un
             )
             Box(
                 modifier = Modifier.size(CONTAINER_HEIGHT),
+                contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
                         .size(animatedSize)
                         .background(MaterialTheme.colorScheme.onBackground, shape)
-                        .align(Alignment.Center),
                 )
             }
         }
@@ -199,13 +197,13 @@ fun AnimationFloatStateEasing(easingName: String, easing: Easing, onClick: () ->
             Box(
                 modifier = Modifier
                     .size(CONTAINER_HEIGHT),
+                contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
                         .size(EXPANDED_SIZE)
                         .scale(animation)
                         .background(MaterialTheme.colorScheme.onBackground, shape)
-                        .align(Alignment.Center),
                 )
             }
         }
@@ -257,13 +255,13 @@ fun AnimationFloatStateInfinite(easingName: String, onClick: () -> Unit) {
             Box(
                 modifier = Modifier
                     .size(CONTAINER_HEIGHT),
+                contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
                         .size(EXPANDED_SIZE)
                         .scale(animation)
                         .background(MaterialTheme.colorScheme.onBackground, shape)
-                        .align(Alignment.Center),
                 )
             }
         }
@@ -317,15 +315,14 @@ fun AnimationFloatStateSpring(easingName: String, onClick: () -> Unit) {
                 modifier = Modifier.weight(1f)
             )
             Box(
-                modifier = Modifier
-                    .size(CONTAINER_HEIGHT),
+                modifier = Modifier.size(CONTAINER_HEIGHT),
+                contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
                         .size(expandableSize)
                         .scale(animation)
                         .background(MaterialTheme.colorScheme.onBackground, shape)
-                        .align(Alignment.Center),
                 )
             }
         }
@@ -384,13 +381,13 @@ fun AnimationColorStateEasing(
                 )
                 Box(
                     modifier = Modifier.size(CONTAINER_HEIGHT),
+                    contentAlignment = Alignment.Center
                 ) {
                     Box(
                         modifier = Modifier
                             .size(EXPANDED_SIZE)
                             .clip(shape)
                             .background(color)
-                            .align(Alignment.Center),
                     )
                 }
             }
