@@ -30,10 +30,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -43,8 +41,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.merp.jet.animation.playground.app.components.VerticalSpacer
+import com.merp.jet.animation.playground.app.utils.Constants.COMMON_PADDING
 import com.merp.jet.animation.playground.app.utils.Constants.DEFAULT_SCALE
 import com.merp.jet.animation.playground.app.utils.Constants.EXPANDED_SCALE
+import com.merp.jet.animation.playground.app.utils.Constants.START_PADDING
 import com.merp.jet.animation.playground.app.viewmodel.twin.TweenSharedViewModel
 import kotlinx.coroutines.launch
 
@@ -57,14 +57,10 @@ fun TweenCodePreviewAndGeneratorScreen(viewModel: TweenSharedViewModel) {
 fun NavigationTabs(viewModel: TweenSharedViewModel) {
     val scope = rememberCoroutineScope()
     val tabs = listOf("View", "Code")
-    val pagerState = rememberPagerState(pageCount = tabs::size)
-    val selectedTab = remember { derivedStateOf { pagerState.currentPage } }.value
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val selectedTab by remember { derivedStateOf { pagerState.currentPage } }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
+    Column {
         TabRow(selectedTabIndex = selectedTab) {
             tabs.forEachIndexed { index, title ->
                 Tab(
@@ -74,7 +70,8 @@ fun NavigationTabs(viewModel: TweenSharedViewModel) {
                             pagerState.animateScrollToPage(index)
                         }
                     },
-                    text = { Text(title) })
+                    text = { Text(title) }
+                )
             }
         }
 
@@ -95,7 +92,9 @@ fun NavigationTabs(viewModel: TweenSharedViewModel) {
 @Composable
 fun AnimationControls(viewModel: TweenSharedViewModel) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(COMMON_PADDING * 2)
     ) {
         AnimatedBox(viewModel)
         VerticalSpacer()
@@ -112,137 +111,68 @@ fun AnimationControls(viewModel: TweenSharedViewModel) {
 
 @Composable
 fun AnimatedBox(viewModel: TweenSharedViewModel) {
-    if (viewModel.animationType == "DP") {
-        val animatedSize by animateDpAsState(
-            targetValue = if (viewModel.expanded) 200.dp else 100.dp,
-            animationSpec = tween(
-                durationMillis = viewModel.durationMillis,
-                easing = viewModel.easing
-            ), label = "BoxSize"
-        )
+    val commonModifier = Modifier
+        .fillMaxHeight(0.5f)
+        .fillMaxWidth()
+        .wrapContentSize(Alignment.Center)
+        .clickable { viewModel.toggleExpanded() }
 
-        Box(
-            modifier = Modifier
-                .fillMaxHeight(0.5f)
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-                .clickable { viewModel.toggleExpanded() },
-            contentAlignment = Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(animatedSize)
-                    .background(Color.Blue, MaterialTheme.shapes.medium),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("Tap Me", color = Color.White, fontSize = 16.sp)
+    val innerBoxModifier = Modifier
+
+        .let {
+            when (viewModel.animationType) {
+                "DP" -> {
+                    val animatedSize by animateDpAsState(
+                        targetValue = if (viewModel.expanded) 200.dp else 100.dp,
+                        animationSpec = tween(
+                            durationMillis = viewModel.durationMillis,
+                            easing = viewModel.easing
+                        ), label = "BoxSize"
+                    )
+                    it
+                        .size(animatedSize)
+                        .background(Color.Blue, MaterialTheme.shapes.medium)
+                }
+
+                "FLOAT" -> {
+                    val animatedScale by animateFloatAsState(
+                        targetValue = if (viewModel.expanded) EXPANDED_SCALE else DEFAULT_SCALE,
+                        animationSpec = tween(
+                            durationMillis = viewModel.durationMillis,
+                            easing = viewModel.easing
+                        ), label = "BoxSize"
+                    )
+                    it
+                        .size(200.dp)
+                        .scale(animatedScale)
+                        .background(Color.Blue, MaterialTheme.shapes.medium)
+                }
+
+                else -> Modifier
             }
         }
-    } else if (viewModel.animationType == "FLOAT") {
-        val animatedScale by animateFloatAsState(
-            targetValue = if (viewModel.expanded) EXPANDED_SCALE else DEFAULT_SCALE,
-            animationSpec = tween(
-                durationMillis = viewModel.durationMillis,
-                easing = viewModel.easing
-            ), label = "BoxSize"
-        )
 
+    Box(
+        modifier = commonModifier,
+        contentAlignment = Alignment.Center
+    ) {
         Box(
-            modifier = Modifier
-                .fillMaxHeight(0.5f)
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-                .clickable { viewModel.toggleExpanded() },
+            modifier = innerBoxModifier,
             contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(200.dp)
-                    .scale(animatedScale)
-                    .background(Color.Blue, MaterialTheme.shapes.medium),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("Tap Me", color = Color.White, fontSize = 16.sp)
-            }
+            Text("Tap Me", color = Color.White, fontSize = 16.sp)
         }
     }
-
 }
 
 @Composable
 fun GeneratedCodePreview(viewModel: TweenSharedViewModel) {
-    var codeText by remember {
-        mutableStateOf<String?>(null)
-    }
-
-    if (viewModel.animationType == "DP") {
-        codeText = """
-                 // Box expanded
-                 var expanded by remember { mutableStateOf(false) }
-                 
-                 // If expand, Change box size
-                 val animatedSize by animateDpAsState(
-                     targetValue = if (expanded) 200.dp else 100.dp,
-                     animationSpec = tween(
-                         durationMillis = ${viewModel.durationMillis},
-                         easing = ${viewModel.easingName}
-                     )
-                 )
-                 
-                 // Box code
-                 Box(
-                     modifier = Modifier
-                         .fillMaxSize()
-                         .clickable { expanded = !expanded }
-                 ) {
-                     Box(
-                         modifier = Modifier
-                             .size(animatedSize)
-                             .background(Color.Blue, RoundedCornerShape(16.dp)),
-                         contentAlignment = Alignment.Center
-                     ) {
-                     
-                         Text("Tap Me", color = Color.White, fontSize = 16.sp)
-                     }
-                 }
-             """.trimIndent()
-    } else if (viewModel.animationType == "FLOAT") {
-        codeText = """
-                 // Box expanded
-                 var expanded by remember { mutableStateOf(false) }
-                 
-                 // If expand, Change box size
-                 val animatedScale by animateFloatAsState(
-                     targetValue = if (expanded) 1f else 0.3f,
-                     animationSpec = tween(
-                         durationMillis = ${viewModel.durationMillis},
-                         easing = ${viewModel.easingName}
-                     )
-                 )
-                 
-                 // Box code
-                 Box(
-                     modifier = Modifier
-                         .fillMaxSize()
-                         .clickable { expanded = !expanded }
-                 ) {
-                     Box(
-                         modifier = Modifier
-                             .size(200.dp)
-                             .scale(animatedScale)
-                             .background(Color.Blue, RoundedCornerShape(16.dp)),
-                         contentAlignment = Alignment.Center
-                     ) {
-                         Text("Tap Me", color = Color.White, fontSize = 16.sp)
-                     }
-                 }
-             """.trimIndent()
-    }
+    val codeText = getPreviewCode(viewModel)
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 10.dp),
+            .padding(COMMON_PADDING * 2),
         shape = MaterialTheme.shapes.large,
         border = BorderStroke(0.7.dp, Color.LightGray)
     ) {
@@ -255,20 +185,64 @@ fun GeneratedCodePreview(viewModel: TweenSharedViewModel) {
                 imageVector = Icons.Default.Share,
                 contentDescription = "Share",
                 modifier = Modifier
-                    .align(
-                        Alignment.TopEnd
-                    )
-                    .padding(10.dp)
+                    .align(Alignment.TopEnd)
+                    .padding(START_PADDING)
                     .size(20.dp)
             )
-            codeText?.let { code ->
-                Text(
-                    text = code,
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
+            Text(
+                text = codeText,
+                fontFamily = FontFamily.Monospace,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(10.dp)
+            )
         }
+    }
+}
+
+fun getPreviewCode(viewModel: TweenSharedViewModel): String {
+    val (type, duration, easing) = Triple(
+        viewModel.animationType,
+        viewModel.durationMillis,
+        viewModel.easingName
+    )
+
+    return when (type) {
+        "DP" -> """
+            var expanded by remember { mutableStateOf(false) }
+            
+            val animatedSize by animateDpAsState(
+                targetValue = if (expanded) 200.dp else 100.dp,
+                animationSpec = tween(durationMillis = $duration, easing = $easing)
+            )
+            
+            Box(modifier = Modifier.fillMaxSize().clickable { expanded = !expanded }) {
+                Box(
+                    modifier = Modifier.size(animatedSize).background(Color.Blue, RoundedCornerShape(16.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Tap Me", color = Color.White, fontSize = 16.sp)
+                }
+            }
+        """.trimIndent()
+
+        "FLOAT" -> """
+            var expanded by remember { mutableStateOf(false) }
+            
+            val animatedScale by animateFloatAsState(
+                targetValue = if (expanded) 1f else 0.3f,
+                animationSpec = tween(durationMillis = $duration, easing = $easing)
+            )
+            
+            Box(modifier = Modifier.fillMaxSize().clickable { expanded = !expanded }) {
+                Box(
+                    modifier = Modifier.size(200.dp).scale(animatedScale).background(Color.Blue, RoundedCornerShape(16.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Tap Me", color = Color.White, fontSize = 16.sp)
+                }
+            }
+        """.trimIndent()
+
+        else -> ""
     }
 }
