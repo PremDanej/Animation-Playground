@@ -42,7 +42,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.*
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.SpringUsingFloatStateStiffScreen
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingColorStateEasingScreen
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingDpStateEasingScreen
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingFloatStateEasingScreen
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingFloatStateInfiniteScreen
 import com.merp.jet.animation.playground.app.utils.Constants.COMMON_PADDING
 import com.merp.jet.animation.playground.app.utils.Constants.CONTAINER_HEIGHT
 import com.merp.jet.animation.playground.app.utils.Constants.DEFAULT_SCALE
@@ -50,7 +54,6 @@ import com.merp.jet.animation.playground.app.utils.Constants.DEFAULT_SIZE
 import com.merp.jet.animation.playground.app.utils.Constants.DURATION_MILLIS
 import com.merp.jet.animation.playground.app.utils.Constants.EXPANDED_SCALE
 import com.merp.jet.animation.playground.app.utils.Constants.EXPANDED_SIZE
-import com.merp.jet.animation.playground.app.utils.Constants.EasingOptions
 import com.merp.jet.animation.playground.app.utils.Constants.START_PADDING
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -159,7 +162,7 @@ fun AnimationFloatStateEasing(easingName: String, easing: Easing, onClick: () ->
     }
 
     val animation by animateFloatAsState(
-        targetValue = if (expanded) 1f else 0.3f,
+        targetValue = if (expanded) EXPANDED_SCALE else DEFAULT_SCALE,
         animationSpec = tween(
             durationMillis = DURATION_MILLIS,
             delayMillis = 0,
@@ -280,7 +283,7 @@ fun AnimationFloatStateSpring(easingName: String, onClick: () -> Unit) {
     }
 
     val animation by animateFloatAsState(
-        targetValue = if (expanded) 1f else 0.3f,
+        targetValue = if (expanded) EXPANDED_SCALE else DEFAULT_SCALE,
         animationSpec = spring(
             dampingRatio = 1f,
             stiffness = Spring.StiffnessMedium,
