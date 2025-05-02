@@ -12,10 +12,12 @@ import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScree
 import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenCodePreviewAndGeneratorScreen
 import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingDpStateEasingScreen
 import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingFloatStateEasingScreen
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingFloatStateInfiniteScreen
 import com.merp.jet.animation.playground.app.ui.screen.main.MainScreen
 import com.merp.jet.animation.playground.app.ui.screen.twin.codeGenerator.TweenCodePreviewAndGeneratorScreen
 import com.merp.jet.animation.playground.app.ui.screen.twin.usingDpStateEasing.TweenAnimationDpStateScreen
 import com.merp.jet.animation.playground.app.ui.screen.twin.usingFloatStateEasing.TweenAnimationFloatStateScreen
+import com.merp.jet.animation.playground.app.ui.screen.twin.usingFloatStateInfinite.TweenAnimationFloatStateInfiniteScreen
 import com.merp.jet.animation.playground.app.viewmodel.twin.TweenSharedViewModel
 
 @Composable
@@ -29,9 +31,9 @@ fun AnimationPlaygroundNavigation(
     fun defaultScreenConfig(isMain : Boolean = false, title: String){
         name.value = title
         isFirstScreen.value = isMain
-        if(isMain.not()){
+        /*if(isMain.not()){
             viewModel.setDefault()
-        }
+        }*/
     }
 
     NavHost(
@@ -54,6 +56,10 @@ fun AnimationPlaygroundNavigation(
         composable(route = TweenCodePreviewAndGeneratorScreen.name) {
             defaultScreenConfig(title = "Animation Preview")
             TweenCodePreviewAndGeneratorScreen(viewModel = viewModel)
+        }
+        composable(route = TweenUsingFloatStateInfiniteScreen.name) {
+            defaultScreenConfig(title = "Infinite Animation")
+            TweenAnimationFloatStateInfiniteScreen()
         }
     }
 }
