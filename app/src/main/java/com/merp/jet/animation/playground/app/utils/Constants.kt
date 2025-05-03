@@ -38,6 +38,7 @@ import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.ui.unit.dp
 
 object Constants {
@@ -49,7 +50,7 @@ object Constants {
     val COMMON_PADDING = 8.dp
     val START_PADDING = 10.dp
     const val EXPANDED_SCALE = 1f
-    const val DEFAULT_SCALE = 0.3f
+    const val DEFAULT_SCALE = 0.4f
 
     val EasingOptions = mapOf(
         "Linear" to LinearEasing,
@@ -90,5 +91,10 @@ object Constants {
         "EaseInBounce" to EaseInBounce,
         "EaseOutBounce" to EaseOutBounce,
         "EaseInOutBounce" to EaseInOutBounce,
+    )
+
+    val RepeatOption = mapOf(
+        "Reverse" to RepeatMode.Reverse,
+        "Restart" to RepeatMode.Restart
     )
 }
