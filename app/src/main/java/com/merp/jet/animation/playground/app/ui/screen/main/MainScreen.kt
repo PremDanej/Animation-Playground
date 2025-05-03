@@ -42,7 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.SpringUsingFloatStateStiffScreen
+import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.SpringUsingFloatStateBounceScreen
 import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingColorStateEasingScreen
 import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingDpStateEasingScreen
 import com.merp.jet.animation.playground.app.navigation.AnimationPlaygroundScreens.TweenUsingFloatStateEasingScreen
@@ -81,7 +81,7 @@ fun MainScreen(navController: NavController) {
         }
 
         AnimationFloatStateSpring(easingName = "FloatState", onClick = {
-            navController.navigate(SpringUsingFloatStateStiffScreen.name)
+            navController.navigate(SpringUsingFloatStateBounceScreen.name)
         })
 
         AnimationColorStateEasing(easingName = "Infinite FloatState") {
