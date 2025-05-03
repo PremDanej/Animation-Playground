@@ -5,5 +5,6 @@ enum class AnimationPlaygroundScreens {
     TweenUsingDpStateEasingScreen,
     TweenUsingFloatStateEasingScreen,
     TweenCodePreviewAndGeneratorScreen,
-    TweenUsingFloatStateInfiniteScreen
+    TweenUsingFloatStateInfiniteScreen,
+    SpringUsingFloatStateBounceScreen,
 }
