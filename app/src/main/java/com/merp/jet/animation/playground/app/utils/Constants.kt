@@ -39,6 +39,15 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring.DampingRatioHighBouncy
+import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
+import androidx.compose.animation.core.Spring.DampingRatioMediumBouncy
+import androidx.compose.animation.core.Spring.DampingRatioNoBouncy
+import androidx.compose.animation.core.Spring.StiffnessHigh
+import androidx.compose.animation.core.Spring.StiffnessLow
+import androidx.compose.animation.core.Spring.StiffnessMedium
+import androidx.compose.animation.core.Spring.StiffnessMediumLow
+import androidx.compose.animation.core.Spring.StiffnessVeryLow
 import androidx.compose.ui.unit.dp
 
 object Constants {
@@ -96,5 +105,20 @@ object Constants {
     val RepeatOption = mapOf(
         "Reverse" to RepeatMode.Reverse,
         "Restart" to RepeatMode.Restart
+    )
+
+    private val RegularStiffnessOption = mapOf(
+        "VeryLowStiffness" to StiffnessVeryLow,
+        "LowStiffness" to StiffnessLow,
+        "MediumLowStiffness" to StiffnessMediumLow,
+        "MediumStiffness" to StiffnessMedium,
+        "HighStiffness" to StiffnessHigh,
+    )
+
+    val AllBounceWithStiffness = mapOf(
+        DampingRatioHighBouncy to RegularStiffnessOption,
+        DampingRatioMediumBouncy to RegularStiffnessOption,
+        DampingRatioLowBouncy to RegularStiffnessOption,
+        DampingRatioNoBouncy to RegularStiffnessOption
     )
 }
