@@ -17,7 +17,6 @@ import com.merp.jet.animation.playground.app.ui.screen.twin.usingFloatStateEasin
 import com.merp.jet.animation.playground.app.ui.screen.twin.codeGenerator.TweenCodePreviewAndGeneratorScreen
 import com.merp.jet.animation.playground.app.ui.screen.twin.usingFloatStateInfinite.TweenAnimationFloatStateInfiniteScreen
 import com.merp.jet.animation.playground.app.ui.screen.spring.usingFloatStateBounce.SpringAnimationFloatStateBounceScreen
-import com.merp.jet.animation.playground.app.ui.screen.twin.usingColorStateEasing.TweenAnimationColorStateScreen
 import com.merp.jet.animation.playground.app.viewmodel.spring.SpringViewModel
 
 @Composable
@@ -61,7 +60,7 @@ fun AnimationPlaygroundNavigation(
         }
         composable(route = SpringUsingFloatStateBounceScreen.name) {
             defaultScreenConfig(title = "Spring - animateAsFloatState()")
-            SpringAnimationFloatStateBounceScreen(navController = navController)
+            SpringAnimationFloatStateBounceScreen(navController = navController, viewModel = springViewModel)
         }
         composable(route = SpringCodePreviewAndGeneratorScreen.name) {
             defaultScreenConfig(title = "Animation Preview")
