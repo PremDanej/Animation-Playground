@@ -117,8 +117,10 @@ fun AnimatedBox(viewModel: TweenSharedViewModel) {
         .wrapContentSize(Alignment.Center)
         .clickable { viewModel.toggleExpanded() }
 
-    val innerBoxModifier = Modifier
+    val color = MaterialTheme.colorScheme.onBackground
+    val shape = MaterialTheme.shapes.medium
 
+    val innerBoxModifier = Modifier
         .let {
             when (viewModel.animationType) {
                 "DP" -> {
@@ -131,7 +133,10 @@ fun AnimatedBox(viewModel: TweenSharedViewModel) {
                     )
                     it
                         .size(animatedSize)
-                        .background(Color.Blue, MaterialTheme.shapes.medium)
+                        .background(
+                            color = color,
+                            shape = shape
+                        )
                 }
 
                 "FLOAT" -> {
@@ -145,7 +150,10 @@ fun AnimatedBox(viewModel: TweenSharedViewModel) {
                     it
                         .size(200.dp)
                         .scale(animatedScale)
-                        .background(Color.Blue, MaterialTheme.shapes.medium)
+                        .background(
+                            color = color,
+                            shape = shape
+                        )
                 }
 
                 else -> Modifier
@@ -160,7 +168,7 @@ fun AnimatedBox(viewModel: TweenSharedViewModel) {
             modifier = innerBoxModifier,
             contentAlignment = Alignment.Center
         ) {
-            Text("Tap Me", color = Color.White, fontSize = 16.sp)
+            Text("Tap Me", color = MaterialTheme.colorScheme.background, fontSize = 16.sp)
         }
     }
 }
@@ -217,7 +225,12 @@ fun getPreviewCode(viewModel: TweenSharedViewModel): String {
             
             Box(modifier = Modifier.fillMaxSize().clickable { expanded = !expanded }) {
                 Box(
-                    modifier = Modifier.size(animatedSize).background(Color.Blue, RoundedCornerShape(16.dp)),
+                    modifier = Modifier
+                        .size(animatedSize)
+                        .background(
+                            color = Color.Blue,
+                            shape = RoundedCornerShape(16.dp)
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text("Tap Me", color = Color.White, fontSize = 16.sp)
@@ -235,7 +248,12 @@ fun getPreviewCode(viewModel: TweenSharedViewModel): String {
             
             Box(modifier = Modifier.fillMaxSize().clickable { expanded = !expanded }) {
                 Box(
-                    modifier = Modifier.size(200.dp).scale(animatedScale).background(Color.Blue, RoundedCornerShape(16.dp)),
+                    modifier = Modifier.size(200.dp)
+                        .scale(animatedScale)
+                        .background(
+                            color = Color.Blue,
+                            shape = RoundedCornerShape(16.dp)
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text("Tap Me", color = Color.White, fontSize = 16.sp)
